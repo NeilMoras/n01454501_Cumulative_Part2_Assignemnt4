@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+<nav>
+    <a class="backlink" href="/Student/List">Return to the Students List</a>
+
+</nav>
+<h2>New Student</h2>
+<form method="POST" action="/Student/Create" name="form_new_student">
+    <div class="form-div">
+        <label for="StudentFname">First Name:</label>
+        <input id="StudentFname" type="text" name="StudentFname" required />
+    </div>
+    <div class="form-div">
+        <label for="StudentLname">Last Name:</label>
+        <input id="StdentLname" type="text" name="StudentLname" required />
+    </div>
+    <div class="form-div">
+        <label for="StudentNumber">Student Number:</label>
+        <input id="StudentNumber" type="text" name="StudentNumber" required />
+    </div>
+    <div class="form-div">
+        <label for="EnrolDate">Enrol Date:</label>
+        <input id="EnrolDate" type="date" name="EnrolDate" required />
+    </div>
+   
+    <div class="form-div">
+        <button type="submit">
+            Submit
+        </button>
+    </div>
+
+
+
+</form>
+

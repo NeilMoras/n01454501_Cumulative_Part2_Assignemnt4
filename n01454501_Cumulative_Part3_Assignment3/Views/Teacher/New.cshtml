@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "New Teacher Entry";
+}
+
+<nav>
+    <a class="backlink" href="/Teacher/List">Return to the Teachers List</a>
+    
+</nav>
+<h2>New Teacher</h2>
+<form method="POST" action="/Teacher/Create" name="form_new_teacher">
+    <div  class="form-div">
+        <label for="TeacherFname">First Name:</label>
+        <input id="TeacherFname" type="text" name="TeacherFname" required/>
+    </div>
+    <div class="form-div">
+        <label for="TeacherLname">Last Name:</label>
+        <input id="TeacherLname" type="text" name="TeacherLname"  required/>
+    </div>
+    <div class="form-div">
+        <label for="EmployeeNumber">Employee Number:</label>
+        <input id="EmployeeNumber" type="text" name="EmployeeNumber"  required/>
+    </div>
+    <div class="form-div">
+        <label for="HireDate">Hire Date:</label>
+        <input id="HireDate" type="date" name="HireDate"  required/>
+    </div>
+    <div class="form-div">
+        <label for="Salary">Salary:</label>
+        <input id="Salary" type="text" name="Salary"  required/>
+    </div>
+    <div class="form-div"> 
+        <button type="submit">
+            Submit
+        </button>
+    </div>
+   
+
+
+</form>
+
+<script type="text/javascript">
+
+    var formHandle = document.forms.form_new_teacher;
+    formHandle.onsubmit = runForm;
+
+    window.onlaod = function load() {
+
+   
+    function runForm() {
+
+        var fName = formHandle.TeacherFname;
+        var lName = formHandle.TeacherLname;
+        var empNumber = formHandle.EmployeeNumber;
+        var hireDate = formHandle.HireDate;
+        var salary = formHandle.Salary;
+
+        if (fName.value === " " || fName.value === null) {
+
+            fName.style.borderColor = "red";
+            fName.focus();
+            return false;
+
+        } else {
+            fName.style.borderColor = "white";
+        }
+
+        if (lName.value === " " || lName.value === null) {
+
+            lName.style.borderColor = "red";
+            lName.focus();
+            return false;
+
+        } else {
+            lName.style.borderColor = "white";
+        }
+
+        if (empNumber.value === " " || empNumber.value === null) {
+
+            empNumber.style.borderColor = "red";
+            empNumber.focus();
+            return false;
+
+        } else {
+            empNumber.style.borderColor = "white";
+        }
+
+        return false;
+
+    }
+
+
+    }
+
+</script>
