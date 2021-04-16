@@ -15,6 +15,11 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Show list of authors connectiing to the views folder
+        /// </summary>
+        /// <param name="id">int as ID</param>
+        /// <returns>List of class rendered to the list page</returns>
         //GET Class/List
         public ActionResult List()
         {
@@ -25,7 +30,13 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
 
             return View(Classes);
         }
-        //GET Class/Show/{id}
+
+        /// <summary>
+        /// Show particluar selected class details connecting to the views folder
+        /// </summary>
+        /// <param name="id">int as ID</param>
+        /// <returns>class detials of that selected class</returns>
+        ///  //GET Class/Show/{id}
         public ActionResult Show(int id)
         {
 
@@ -33,6 +44,22 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
             Class NewClass = controller.FindClass(id);
 
             return View(NewClass);
+        }
+
+
+
+
+
+        [HttpPost]
+        // POST Class/AddSecondaryKey
+        public ActionResult AddSecondaryKey()
+        {
+            ClassesDataController controller = new ClassesDataController();
+            controller.AddForeignKey();
+
+            return RedirectToAction("List");
+
+          
         }
     }
 }

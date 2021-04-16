@@ -46,7 +46,6 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
             {
                 int ClassId = Convert.ToInt32(ResultSet["classid"]);
                 string ClassCode = (string)ResultSet["classcode"];
-                int TeacherId = Convert.ToInt32(ResultSet["teacherid"]);
                 DateTime StartDate = (DateTime)ResultSet["startdate"];
                 DateTime FinishDate = (DateTime)ResultSet["finishdate"];
                 string ClassName = (string)ResultSet["classname"];
@@ -55,7 +54,6 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
                 Class NewClass = new Class();
                 NewClass.ClassId = ClassId;
                 NewClass.ClassCode = ClassCode;
-                NewClass.TeacherId = TeacherId;
                 NewClass.StartDate = StartDate;
                 NewClass.FinishDate = FinishDate;
                 NewClass.ClassName = ClassName;
@@ -75,7 +73,7 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
         /// this code will retreives single row of classes data and information and  their fields information from the database to be used accordingly
         /// </summary>
         /// <example>GET/api/ClassesData/FindClass/{id}</example>
-        /// <param name="id"> interger as an input as ClassId</param>
+        /// <param name="id"> integer as an input as ClassId</param>
         /// <returns> A single row of Class data and  information from the Classes table</returns>
 
         [HttpGet]
@@ -102,7 +100,6 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
             {
                 int ClassId = Convert.ToInt32(ResultSet["classid"]);
                 string ClassCode = (string)ResultSet["classcode"];
-                int TeacherId = Convert.ToInt32(ResultSet["teacherid"]);
                 DateTime StartDate = (DateTime)ResultSet["startdate"];
                 DateTime FinishDate = (DateTime)ResultSet["finishdate"];
                 string ClassName = (string)ResultSet["classname"];
@@ -110,7 +107,6 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
                 //creating a new variable and lining it to the models controller 
                 NewClass.ClassId = ClassId;
                 NewClass.ClassCode = ClassCode;
-                NewClass.TeacherId = TeacherId;
                 NewClass.StartDate = StartDate;
                 NewClass.FinishDate = FinishDate;
                 NewClass.ClassName = ClassName;
@@ -119,6 +115,42 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
             }
             // outputs from a row of  Class data from the database to the web browser
             return NewClass;
+        }
+
+        /// <summary>
+        /// Adding a forign key to the  class table in school db dababase in order to maintain referenctial action
+        /// in class if the teacher referred to the particular class is deleted, it will set the teacherid forerign key to null
+        /// </summary>
+
+        // Plan: Noticed that the teacheid in the classes table was referring to the primary key of the teachers table but it wasnt assigned as a foriegn key,
+        //hence when the teacher was deleted , the teacherid of the teacher referring to the class was still referring to the teacher which was deleted
+        //Solution: To assign teacherid in the classes table as a foreign key to maintain referential action
+
+        // the Below code was an attempt to  add teacherid as a forign key but was not successfull after multiple attempts
+        //Altnative working solution: Investigated the mysql database and assigned teacher id as the foreign key by using the alter command query which set the foreign key on delete to NULL
+        // mySql query  : "Alter table classes add constraint teacher_id_fk foreign key (teacherid) references teachers (teacherid) on delete set null on update restrict"
+
+        //<returns>
+        // if a particular teacher is deleted, the classes assigned to that particular teeacher will be set to NULL
+        // </returns>
+
+        [HttpPost]
+        public void AddForeignKey()
+        {
+            //Links and creates a connection to mySql database
+            MySqlConnection Connection = School.AccessDatabase();
+            //Connection linked and opens between the database and the web server
+            Connection.Open();
+            //creates a new command to run the query from the database
+            MySqlCommand Command = Connection.CreateCommand();
+             //query command to the database inorder to alter by making the teacherid in the classes tables a foreign key inorder to maintain referential action
+            Command.CommandText = "Alter table classes add constraint teacher_id_fk foreign key (teacherid) references teachers (teacherid) on delete set null on update restrict";
+
+            Command.Prepare();
+
+            Command.ExecuteNonQuery();
+
+            Connection.Close();
         }
     }
 }

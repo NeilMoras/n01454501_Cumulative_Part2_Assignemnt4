@@ -4,8 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using n01454501_Cumulative_Part2_Assignment4.Models;
-using MySql.Data.MySqlClient;
+using n01454501_Cumulative_Part2_Assignment4.Models;// using the models folder inorder to access the teacher defining feilds and the database
+using MySql.Data.MySqlClient;  // connects to the mySql database NuGet package
+
 
 
 namespace n01454501_Cumulative_Part2_Assignment4.Controllers
@@ -34,6 +35,7 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
             //creates a new command to run the query from the database
             MySqlCommand Command = Connection.CreateCommand();
             // allows to write a query and send it to the database to retrive the information from teachers table
+            // query modified inorder to prevent direct input injection attacks
             Command.CommandText = "select * from teachers where lower(teacherfname) like  lower(@key) or lower(teacherlname) like lower(@key) or lower(concat(teacherfname, ' ', teacherlname)) like lower(@key) or hiredate like @key or salary like @key";
 
 
@@ -141,13 +143,15 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
             Connection.Open();
             //creates a new command to run the query from the database
             MySqlCommand Command = Connection.CreateCommand();
-
+            // allows to write a query to delete the selcted teacher with their teacher id from the mysql database
             Command.CommandText = "Delete from teachers where teacherid = @id";
             Command.Parameters.AddWithValue("@id", id);
+
+            //creating a prepared version of the command 
             Command.Prepare();
-
+            //This is a one way query with only server data to return
             Command.ExecuteNonQuery();
-
+            // close the connection between the web server and the database once the action is completed
             Connection.Close();
         }
      
@@ -164,19 +168,27 @@ namespace n01454501_Cumulative_Part2_Assignment4.Controllers
             Connection.Open();
             //creates a new command to run the query from the database
             MySqlCommand Command = Connection.CreateCommand();
-
-            Command.CommandText = " insert into teachers (teacherfname, teacherlname,employeenumber,hiredate,salary) values (@TeacherFname,@TeacherLname,@EmployeeNumber,@HireDate,@Salary)";
+            // query modified inorder to prevent direct input injection attacks
+            Command.CommandText = "insert into teachers (teacherfname, teacherlname,employeenumber,hiredate,salary) values (@TeacherFname,@TeacherLname,@EmployeeNumber,@HireDate,@Salary)";
             Command.Parameters.AddWithValue("@TeacherFname", NewTeacher.TeacherFname);
             Command.Parameters.AddWithValue("@TeacherLname", NewTeacher.TeacherLname);
             Command.Parameters.AddWithValue("@EmployeeNumber", NewTeacher.EmployeeNumber);
             Command.Parameters.AddWithValue("@HireDate", NewTeacher.HireDate);
             Command.Parameters.AddWithValue("@Salary", NewTeacher.Salary);
+            
+            //creating a prepared version of the command 
             Command.Prepare();
 
+            //This is a one way query with only server data to return
             Command.ExecuteNonQuery();
-
+            // close the connection between the web server and the database once the action is completed
             Connection.Close();
         }
+
+
+
+
+        
     }  
                
 

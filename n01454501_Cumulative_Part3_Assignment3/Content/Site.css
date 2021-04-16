@@ -122,3 +122,22 @@ form{
     padding: 0.5em;
     font-size: 1.5em;
 }
+
+
+
+.btn-submit{
+    background-color :  #26abff;
+    border:1px solid #0859c6;;
+    border-radius:5px;
+    color: #fff;
+}
+
+.btn-submit:hover{
+    transform: scale(1.2);
+}
+
+span{
+    margin-left:1em;
+    color: red;
+    font-size: 0.9em;
+}
